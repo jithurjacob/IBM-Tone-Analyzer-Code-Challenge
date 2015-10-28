@@ -13,15 +13,16 @@ def tone():
 		#Check if app is in BlueMix Environment
 		if 'VCAP_SERVICES' in os.environ:
 			vcap_services = json.loads(os.environ['VCAP_SERVICES'])
+			
 			for svc in vcap_services:
-				srvcs.append(svc)
-			return (srvcs)
+				print svc
+			
 		else:
 			return ("VCAP is none")
 	except Exception, e:
 		return jsonify('Error')
 
-	return 'Hello World'
+	return 'Ok'
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(port))
