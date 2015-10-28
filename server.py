@@ -6,11 +6,12 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/tone')
+@app.route('/tone/')
 def tone():
+	return 'Hello'
 	try:
 		#Check if app is in BlueMix Environment
-        if 'VCAP_SERVICES' in os.environ:
+		if 'VCAP_SERVICES' in os.environ:
             
             #3. Read Connection Parameters from VCAP_SERVICES Environment Variable
 
