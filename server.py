@@ -1,21 +1,32 @@
-import os
-try:
-  from SimpleHTTPServer import SimpleHTTPRequestHandler as Handler
-  from SocketServer import TCPServer as Server
-except ImportError:
-  from http.server import SimpleHTTPRequestHandler as Handler
-  from http.server import HTTPServer as Server
+import os, sys, requests, json
+from flask import Flask, render_template, request,url_for,jsonify
+app = Flask(__name__)
 
-# Read port selected by the cloud for our application
-PORT = int(os.getenv('PORT', 8000))
-# Change current directory to avoid exposure of control files
-os.chdir('static')
+@app.route("/")
+def index():
+    return render_template('index.html')
 
-httpd = Server(("", PORT), Handler)
-try:
-  print("Start serving at port %i" % PORT)
-  httpd.serve_forever()
-except KeyboardInterrupt:
-  pass
-httpd.server_close()
+@app.route('/tone')
+def tone():
+	try:
+		#Check if app is in BlueMix Environment
+        if 'VCAP_SERVICES' in os.environ:
+            
+            #3. Read Connection Parameters from VCAP_SERVICES Environment Variable
+
+            #convert vcap-services json into a dictionary
+            vcap_services = json.loads(os.environ['VCAP_SERVICES'])
+            srvcs=[]
+            for svc in vcap_services:
+            	srvcs.append(svc)
+			return jsonify(srvcs)
+		else:
+			return jsonify("VCAP is none")
+	except Exception, e:
+		return jsonify('Error')
+
+    return 'Hello World'
+
+if __name__ == "__main__":
+    app.run()
 
