@@ -1,7 +1,7 @@
 import os, sys, requests, json
 from flask import Flask, render_template, request,url_for,jsonify
 app = Flask(__name__)
-
+port = os.getenv('VCAP_APP_PORT', '5000')
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -24,5 +24,5 @@ def tone():
 	return 'Hello World'
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=int(port))
 
