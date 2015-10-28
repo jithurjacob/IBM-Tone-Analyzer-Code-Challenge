@@ -20,7 +20,7 @@ def tone():
 				srvcs=[]
 				for srv in vcap_services:
 					srvcs.append(srv)
-				return "Service is not present"," ".join(srvcs)
+				return ("Service is not present"," ".join(srvcs),200)
 		else:
 			return ("VCAP is none")
 	except Exception, e:
