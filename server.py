@@ -13,7 +13,7 @@ def tone():
 		#Check if app is in BlueMix Environment
 		if 'VCAP_SERVICES' in os.environ:
 			vcap_services = json.loads(os.environ['VCAP_SERVICES'])
-			svcName="tone"
+			svcName="tone_analyzer"
 			if svcName in vcap_services:
 				svc = vcap_services[svcName][0]['credentials']
 				url = svc['url']
