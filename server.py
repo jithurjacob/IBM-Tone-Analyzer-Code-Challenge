@@ -1,5 +1,5 @@
 import os, sys, requests, json
-from flask import Flask, render_template, request,url_for,jsonify
+from flask import Flask, render_template, request,url_for,jsonify,make_response
 app = Flask(__name__)
 port = os.getenv('VCAP_APP_PORT', '5000')
 @app.route("/")
@@ -20,7 +20,9 @@ def tone():
 				srvcs=[]
 				for srv in vcap_services:
 					srvcs.append(srv)
-				return ("Service is not present"," ".join(srvcs),200)
+				message = {'message': "Service is not present"," ".join(srvcs)}
+				return make_response(json.dumps(message),200)
+				
 		else:
 			return ("VCAP is none")
 	except Exception, e:
