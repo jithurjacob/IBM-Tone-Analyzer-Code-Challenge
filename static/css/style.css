@@ -240,3 +240,4 @@ body {
 .synonym-list-item {
     cursor: pointer;
 }
+#joke-btn{cursor:pointer;text-decoration: inherit;}

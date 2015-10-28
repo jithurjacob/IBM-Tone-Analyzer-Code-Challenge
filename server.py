@@ -15,12 +15,25 @@ def tone():
 			vcap_services = json.loads(os.environ['VCAP_SERVICES'])
 			svcName="tone"
 			if svcName in vcap_services:
-				return "Service Found"
+				svc = vcap_services[svcName][0]['credentials']
+				url = svc['url']
+				user = svc['username']
+				password = svc['password']
+				data={	'contentItems' : [{'content': text}]}
+				r = requests.post(self.url,auth=(user,password),headers = {'content-type': 'application/json'},data=json.dumps(data))
+				if r.status_code!=200:
+					try:
+						error = json.loads(r.text)
+					except:
+						raise Exception("API error, http status code %d" % r.status_code)
+						raise Exception("API error %s: %s" % (error['error_code'], error['user_message']))
+
+				return json.loads(r.text)
 			else:
 				srvcs=[]
 				for srv in vcap_services:
 					srvcs.append(srv)
-				message = {'message': "Service is not present"," ".join(srvcs)}
+				message = {'message': "Service is not present"+" ".join(srvcs)}
 				return make_response(json.dumps(message),200)
 				
 		else:

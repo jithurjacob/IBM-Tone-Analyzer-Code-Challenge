@@ -56,6 +56,7 @@ $(document).ready(function() {
   var $text     = $('#textArea'),
     $loading    = $('#loading'),
     $analyzeBtn = $('.analyze-btn'),
+    $jokeBtn = $('#joke-btn'),
     $results    = $('.results'),
     $jsonTab    = $('.json-div'),
     $outputText = $('.text-output-div'),
@@ -68,9 +69,23 @@ $(document).ready(function() {
   var CURRENT_TONE = null; // current results
   var REPLACEABLE = null;
 
+  
+  function loadJoke () {
+    $text.val('');
+    var anim=setInterval(function () {$text.animate({opacity:'0.4'},"slow");$text.animate({opacity:'1'},"slow");}, 2000);
+    $text.prop("placeholder","Please wait I'm thinking of a new joke...");
+    $.getJSON("http://api.icndb.com/jokes/random",function(data,status){
+      if(status=="success" && data.type=="success"){
+        $text.val(data.value.joke);
+        clearTimeout(anim);
+      }else{
+        $text.val('Error loading joke. Please try again.');
+        clearTimeout(anim);
+      }
+    });
+  }
   // set initial text
-  $text.val(SAMPLE_TEXT);
-
+  loadJoke();
   function onAPIError(xhr) {
     var error;
     try {
@@ -79,7 +94,9 @@ $(document).ready(function() {
 
     showError(error ? (error.error || error): '');
   }
-
+  $jokeBtn.click(function() {
+    loadJoke();
+  });
   $analyzeBtn.click(function() {
     $loading.show();
     $results.hide();
