@@ -16,10 +16,10 @@ def tone():
 			svcName="tone_analyzer"
 			if svcName in vcap_services:
 				svc = vcap_services[svcName][0]['credentials']
-				url = svc['url']
+				url = svc['url']+"/v1/tone"
 				user = svc['username']
 				password = svc['password']
-				data={'contentItems' : [{'content': (request.form['text'])}]}
+				data={'text': (request.form['text'])}
 				r = requests.post(url,auth=(user,password),headers = {'content-type': 'application/json'},data=json.dumps(data))
 				if r.status_code!=200:
 					try:

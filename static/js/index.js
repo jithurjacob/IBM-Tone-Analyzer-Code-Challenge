@@ -109,7 +109,7 @@ $(document).ready(function() {
     
     $('.output-div')[0].scrollIntoView(true); // Boolean arguments
 
-    $.post('/tone', {'text': text })
+    $.post('/tone/', {'text': text })
       .done(function(response) {
         // save the json response in the JSON tab
         $jsonTab.html(JSON.stringify(response, null, 2));
