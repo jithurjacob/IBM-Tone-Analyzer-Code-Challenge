@@ -8,25 +8,20 @@ def index():
 
 @app.route('/tone/')
 def tone():
-	return 'Hello'
+	
 	try:
 		#Check if app is in BlueMix Environment
 		if 'VCAP_SERVICES' in os.environ:
-            
-            #3. Read Connection Parameters from VCAP_SERVICES Environment Variable
-
-            #convert vcap-services json into a dictionary
-            vcap_services = json.loads(os.environ['VCAP_SERVICES'])
-            srvcs=[]
-            for svc in vcap_services:
-            	srvcs.append(svc)
-			return jsonify(srvcs)
+			vcap_services = json.loads(os.environ['VCAP_SERVICES'])
+			for svc in vcap_services:
+				srvcs.append(svc)
+			return (srvcs)
 		else:
-			return jsonify("VCAP is none")
+			return ("VCAP is none")
 	except Exception, e:
 		return jsonify('Error')
 
-    return 'Hello World'
+	return 'Hello World'
 
 if __name__ == "__main__":
     app.run()
