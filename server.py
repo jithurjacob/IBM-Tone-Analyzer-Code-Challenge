@@ -6,7 +6,7 @@ port = os.getenv('VCAP_APP_PORT', '5000')
 def index():
     return render_template('index.html')
 
-@app.route('/tone/')
+@app.route('/tone/', methods = ['POST'])
 def tone():
 	
 	try:
@@ -19,8 +19,8 @@ def tone():
 				url = svc['url']
 				user = svc['username']
 				password = svc['password']
-				data={	'contentItems' : [{'content': text}]}
-				r = requests.post(self.url,auth=(user,password),headers = {'content-type': 'application/json'},data=json.dumps(data))
+				data={'contentItems' : [{'content': (request.form['text'])}]}
+				r = requests.post(url,auth=(user,password),headers = {'content-type': 'application/json'},data=json.dumps(data))
 				if r.status_code!=200:
 					try:
 						error = json.loads(r.text)
@@ -39,7 +39,7 @@ def tone():
 		else:
 			return ("VCAP is none")
 	except Exception, e:
-		return ('Error')
+		return ('Error',e)
 
 	return 'Ok'
 
