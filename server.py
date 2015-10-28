@@ -11,11 +11,11 @@ def tone():
 	
 	try:
 		#Check if app is in BlueMix Environment
-		if 'VCAP_SERVICES' in os.environ:
-			vcap_services = json.loads(os.environ['VCAP_SERVICES'])
+		if 'VCAP_SERVICES'  in os.environ:
+			vcap_services = []#json.loads(os.environ['VCAP_SERVICES'])
 			svcName="tone_analyzer"
-			if svcName in vcap_services:
-				svc = vcap_services[svcName][0]['credentials']
+			if svcName  in vcap_services:
+				#svc = vcap_services[svcName][0]['credentials']
 				url = "https://gateway.watsonplatform.net/tone-analyzer-experimental/api/v1/tone"#"svc['url']+"
 				user = "10aef9f7-07da-4b65-aac8-ab977b85f244"#svc['username']
 				password = "RbCp8gfylAWo"#svc['password']
@@ -28,8 +28,8 @@ def tone():
 						return "API error, http status code %d" % r.status_code
 						#raise Exception("API error, http status code %d" % r.status_code)
 						#raise Exception("API error %s: %s" % (error['error_code'], error['user_message']))
-
-				return r.text#json.loads(r.text)
+				data=json.loads(r.text)
+				return json.dumps(data)
 			else:
 				srvcs=[]
 				for srv in vcap_services:

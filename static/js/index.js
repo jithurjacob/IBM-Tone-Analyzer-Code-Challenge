@@ -113,7 +113,8 @@ $(document).ready(function() {
       .done(function(response) {
         // save the json response in the JSON tab
         $jsonTab.html(JSON.stringify(response, null, 2));
-
+        response=$.parseJSON(response);//JSON.stringify(response, null, 2);
+        //console.log(response);
         //prepare the data
         processData(response);
         response.id = 'root';
@@ -127,7 +128,7 @@ $(document).ready(function() {
         $('.output-div')[0].scrollIntoView(true); // Boolean arguments
 
       });
-  });
+  } );
 
   /**
    * Display an error or a default message
