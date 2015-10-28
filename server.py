@@ -39,7 +39,7 @@ def tone():
 		else:
 			return ("VCAP is none")
 	except Exception, e:
-		return ('Error',e)
+		return ('Error'+str(e))
 
 	return 'Ok'
 
