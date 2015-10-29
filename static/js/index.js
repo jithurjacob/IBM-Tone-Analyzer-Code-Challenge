@@ -111,9 +111,10 @@ $(document).ready(function() {
 
     $.post('/tone/', {'text': text })
       .done(function(response) {
+        response=$.parseJSON(response);
         // save the json response in the JSON tab
         $jsonTab.html(JSON.stringify(response, null, 2));
-        response=$.parseJSON(response);//JSON.stringify(response, null, 2);
+        //JSON.stringify(response, null, 2);
         //console.log(response);
         //prepare the data
         processData(response);
@@ -308,7 +309,7 @@ $(document).ready(function() {
         .removeClass('pop');
       //get the context of this word:
       var cntxt = getContext(word, offset);
-
+      
       $.ajax({
         type: 'GET',
         data: {
@@ -318,10 +319,11 @@ $(document).ready(function() {
           index: cntxt.offset, 
           hops: SYNONYM_HOPS
         },
-        url: 'synonyms',
+        url: 'synonyms/',
         dataType: 'json',
         contentType: 'application/json',
         success: function(response) {
+          //response=$.parseJSON(response);
           $error.hide();
           processSynonym(response, cates);
         },
